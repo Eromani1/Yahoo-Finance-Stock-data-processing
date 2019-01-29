@@ -19,16 +19,12 @@ tickers=["NFLX","DIS"]
 """Initiating empty dictionary where stock data will be collected"""
 result_dict={}
 
-
 """for every ticker symbol, do the following"""
-
-for ticker in tickers:
-
-    
+for ticker in tickers: 
     """
     Launch a web request that scrapes the stock's Yahoo Finance 
-    data for that ticket and retrieve html content;"""
-    
+    data for that ticket and retrieve html content;
+    """
     url="https://finance.yahoo.com/quote/{}/history/".format(ticker)
     request=requests.get(url)
     request_html=request.text
@@ -40,18 +36,15 @@ for ticker in tickers:
     To get table headers, I fetch all html elements of type <th> and 
     store their content in a list, called columns
     """
-    
     table_headers=soup.find_all("th")
     columns=[item.text for item in table_headers]
     del columns[0]
-    
     """
     Then,
     To get table rows data, I fetch all html elements of type <tr> and 
     store their content in a list, tr_list; each element of the list corresponds
     to an table row on the Yahoo page of stock data
     """
-    
     tr=soup.find_all("td")      
     tr_lst=[item.text for item in tr]
     
@@ -66,6 +59,7 @@ for ticker in tickers:
     """Dividend regular expression"""
     
     div_reg=re.compile("Dividend$")
+    
     """ Date regular expression accounting for date format on Yahoo Finance"""
     
     date_reg=re.compile("\w{3}\s\d{2},\s\d{4}")
@@ -134,8 +128,6 @@ for ticker in tickers:
     
     Volume=[int(final_lst[i].replace(",",".").replace(".","")) for i in range(6,len(final_lst),7)]
     
-    
-    
     """ 
     Create final dictionary which puts together processed data
     
@@ -160,7 +152,6 @@ for ticker in tickers:
     df=df.set_index(df["Date"])
     df=df.drop(columns="Date")
     
-    
     """"
     Calculating Daily Return column as: 
         
@@ -171,11 +162,9 @@ for ticker in tickers:
     df["Daily Return"]=(df["Close"].shift(1)-df["Close"])/df["Close"]
     
     """
-    
     Append the daily return into final dict object and exiting the loop; after this ends,
     we now have dataset with all daily return stock data for seached ticker symbols
     """
-    
     result_dict[ticker]=df["Daily Return"]
 
 """
