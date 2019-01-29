@@ -185,6 +185,23 @@ graph=result_df.plot(title="Daily Stock Return: {} vs {}".format(tickers[0],tick
 graph.set_ylabel("Daily Return")
 
 
+""" SAMPLE RUN
+
+(See results.png)
+
+"""
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
